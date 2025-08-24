@@ -5,7 +5,7 @@ description = "A-Roma scent dispenser software"
 authors = [
     { name = "Jerry Ryle", email = "jerry@ryle.io" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 readme = "README.md"
 license = { text = "BSD-3-Clause" }
 dependencies = [
@@ -59,7 +59,7 @@ use_parentheses = true
 [tool.black]
 line-length = 88
 skip-string-normalization = true
-target-version = ['py312']
+target-version = ['py311']
 include = '\.pyi?$'
 exclude = '''
   /(
@@ -91,7 +91,7 @@ sort_by_size = true
 verbose = false
 
 [tool.mypy]
-python_version = "3.13"
+python_version = "3.11"
 plugins = [
   "pydantic.mypy"
 ]

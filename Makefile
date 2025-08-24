@@ -57,18 +57,17 @@ deploy-pi:
 	@echo "Testing connection to Raspberry Pi..."
 	@ping -c 1 $(PI_HOST) > /dev/null 2>&1 || (echo "Cannot reach $(PI_HOST). Please check your network connection." && exit 1)
 	@echo "Deploying files to Raspberry Pi..."
-	@ssh $(PI_USER)@$(PI_HOST) "sudo mkdir -p $(PI_PATH)"
+	@ssh $(PI_USER)@$(PI_HOST) "sudo mkdir -p $(PI_PATH) && sudo chown $(PI_USER):$(PI_USER) $(PI_PATH)"
 	@rsync -avz --delete \
-		--exclude='venv' \
+		--exclude='.venv' \
 		--exclude='__pycache__' \
 		--exclude='*.pyc' \
 		--exclude='.git' \
-		--exclude='backups' \
 		--exclude='.vscode' \
 		--exclude='*.log' \
 		./ $(PI_USER)@$(PI_HOST):$(PI_PATH)/
-	@echo "Setting permissions and deploying..."
-	@ssh $(PI_USER)@$(PI_HOST) "cd $(PI_PATH) && sudo chown -R $(PI_USER):$(PI_USER) . && sudo apt update && sudo apt install -y python3-pip python3-venv git python3-pygame python3-rpi.gpio && python3 -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -e . && make install-service && make enable-service && make service-status"
+	@echo "Setting up and deploying..."
+	@ssh $(PI_USER)@$(PI_HOST) "cd $(PI_PATH) && sudo apt-get update && sudo apt-get install -y python3-pip python3-venv git python3-pygame python3-rpi.gpio && python3 -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -e . && make install-service && make enable-service && make service-status"
 	@echo "Deployment complete!"
 	@echo ""
 	@echo "Your A-Roma software is now running on:"
