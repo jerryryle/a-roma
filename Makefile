@@ -24,23 +24,7 @@ help:
 # System service management
 install-service:
 	@echo "Installing systemd service..."
-	@sudo tee /etc/systemd/system/aroma-software.service > /dev/null <<EOF
-[Unit]
-Description=A-Roma Software
-After=network.target
-
-[Service]
-Type=simple
-User=pi
-WorkingDirectory=/opt/aroma-software
-Environment=PATH=/opt/aroma-software/venv/bin
-ExecStart=/opt/aroma-software/venv/bin/python main.py --host 0.0.0.0:80
-Restart=always
-RestartSec=1
-
-[Install]
-WantedBy=multi-user.target
-EOF
+	@sudo cp aroma-software.service /etc/systemd/system/
 	@sudo systemctl daemon-reload
 	@echo "Service installed!"
 
