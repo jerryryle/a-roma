@@ -5,6 +5,7 @@
 
 ## API Server Guidelines
 - Use Python 3.13
+- Use Astral's uv
 - Use FastAPI for REST endpoints and websockets.
 - Ensure that all Python code passes MyPy and Flake8.
 
