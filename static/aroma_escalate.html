@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Roma - All of the Aromas with None of the Rome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        .italian-flag {
+            background: linear-gradient(to right, #009246 33.33%, #ffffff 33.33% 66.66%, #ce2b37 66.66%);
+        }
+    </style>
+</head>
+
+<body class="bg-white min-h-screen">
+    <!-- Top Banner -->
+    <div class="border-b-4" style="background-color: #fffdd5; border-bottom-color: #eceac5;">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-center space-x-4">
+                <!-- Italian Flag -->
+                <div class="w-16 h-12 rounded shadow-lg overflow-hidden">
+                    <img src="/static/flag_of_italy.svg" alt="Italian Flag" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Welcome SVG -->
+                <div class="flex-shrink-0">
+                    <img src="/static/welcome_to_aroma.svg" alt="Welcome to A-Roma" class="h-16 md:h-20 lg:h-24">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
+                Help Ryan relive his vacation with a whiff of
+            </h2>
+        </div>
+
+        <!-- Aroma Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <!-- Fine Italian Leather -->
+            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                onclick="activateFan(0)">
+                <div class="h-64 bg-blue-gray-100 relative overflow-hidden">
+                    <img src="/static/leather.jpg" alt="Fine Italian Leather"
+                        class="w-full h-full object-cover grayscale transition-all duration-300" id="image-0">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
+                        id="progress-0"></div>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Fine Italian Leather</h3>
+                    <button id="stop-button-0"
+                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                        onclick="event.stopPropagation(); stopFan(0)">
+                        Stop (<span id="stop-time-0">0</span>)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Artisan Bread -->
+            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                onclick="activateFan(1)">
+                <div class="h-64 bg-olive-100 relative overflow-hidden">
+                    <img src="/static/bread.jpg" alt="Artisan Bread"
+                        class="w-full h-full object-cover grayscale transition-all duration-300" id="image-1">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
+                        id="progress-1"></div>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Artisan Bread</h3>
+                    <button id="stop-button-1"
+                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                        onclick="event.stopPropagation(); stopFan(1)">
+                        Stop (<span id="stop-time-1">0</span>)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Espresso -->
+            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                onclick="activateFan(2)">
+                <div class="h-64 bg-yellow-100 relative overflow-hidden">
+                    <img src="/static/espresso.jpg" alt="Espresso"
+                        class="w-full h-full object-cover grayscale transition-all duration-300" id="image-2">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
+                        id="progress-2"></div>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Espresso</h3>
+                    <button id="stop-button-2"
+                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                        onclick="event.stopPropagation(); stopFan(2)">
+                        Stop (<span id="stop-time-2">0</span>)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Garlic -->
+            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                onclick="activateFan(3)">
+                <div class="h-64 bg-red-100 relative overflow-hidden">
+                    <img src="/static/garlic.jpg" alt="Garlic"
+                        class="w-full h-full object-cover grayscale transition-all duration-300" id="image-3">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
+                        id="progress-3"></div>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Garlic</h3>
+                    <button id="stop-button-3"
+                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                        onclick="event.stopPropagation(); stopFan(3)">
+                        Stop (<span id="stop-time-3">0</span>)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Music Controls -->
+        <div class="mt-16">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
+                    and some Italian music to go with it
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- Song 1 -->
+                <div class="bg-gray-100 rounded-lg p-6 text-center shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Tarantella Napoletana</h3>
+                    <button id="music-button-1"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+                        onclick="startMusic(1)">
+                        Play
+                    </button>
+                </div>
+
+                <!-- Song 2 -->
+                <div class="bg-gray-100 rounded-lg p-6 text-center shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Mambo Italiano</h3>
+                    <button id="music-button-2"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+                        onclick="startMusic(2)">
+                        Play
+                    </button>
+                </div>
+
+                <!-- Song 3 -->
+                <div class="bg-gray-100 rounded-lg p-6 text-center shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Luna Mezzo Mare</h3>
+                    <button id="music-button-3"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+                        onclick="startMusic(3)">
+                        Play
+                    </button>
+                </div>
+
+                <!-- Song 4 -->
+                <div class="bg-gray-100 rounded-lg p-6 text-center shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">That's Amore</h3>
+                    <button id="music-button-4"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+                        onclick="startMusic(4)">
+                        Play
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WebSocket connection for real-time updates
+        let ws = null;
+
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/api/ws`;
+
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = function () {
+                console.log('WebSocket connected');
+            };
+
+            ws.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                if (data.type === 'fan_status') {
+                    updateFanStatus(data.data);
+                } else if (data.type === 'music_status') {
+                    updateMusicStatus(data.data);
+                }
+            };
+
+            ws.onclose = function () {
+                console.log('WebSocket disconnected, attempting to reconnect...');
+                setTimeout(connectWebSocket, 1000);
+            };
+
+            ws.onerror = function (error) {
+                console.error('WebSocket error:', error);
+            };
+        }
+
+        function updateFanStatus(fanStatus) {
+            const aromaNames = ['Fine Italian Leather', 'Artisan Bread', 'Espresso', 'Garlic'];
+
+            for (let i = 0; i < 4; i++) {
+                const fanKey = `fan_${i}`;
+                const fan = fanStatus[fanKey];
+                const image = document.getElementById(`image-${i}`);
+                const progress = document.getElementById(`progress-${i}`);
+                const stopButton = document.getElementById(`stop-button-${i}`);
+                const stopTime = document.getElementById(`stop-time-${i}`);
+
+                // Infer active state from remaining_seconds
+                const isActive = fan.remaining_seconds > 0;
+
+                if (isActive && fan.total_seconds > 0) {
+                    const progressPercent = (fan.remaining_seconds / fan.total_seconds) * 100;
+
+                    // Remove grayscale filter based on progress
+                    image.style.filter = `grayscale(${100 - progressPercent}%)`;
+
+                    // Show progress overlay from left to right
+                    progress.style.opacity = '1';
+                    progress.style.background = `linear-gradient(to right, rgba(156, 163, 175, 0.8) ${100 - progressPercent}%, transparent ${100 - progressPercent}%)`;
+
+                    // Show stop button and update time
+                    stopButton.classList.remove('hidden');
+                    stopTime.textContent = fan.remaining_seconds;
+                } else {
+                    // Reset to grayscale when inactive
+                    image.style.filter = 'grayscale(100%)';
+                    progress.style.opacity = '0';
+
+                    // Hide stop button when inactive
+                    stopButton.classList.add('hidden');
+                }
+            }
+        }
+
+        // Initialize page when DOM loads
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Get initial fan status before connecting WebSocket
+            await getInitialFanStatus();
+            // Get initial music status before connecting WebSocket
+            await getInitialMusicStatus();
+            // Then connect WebSocket for real-time updates
+            connectWebSocket();
+        });
+
+        async function getInitialFanStatus() {
+            try {
+                const response = await fetch('/api/fan/status');
+                if (response.ok) {
+                    const fanStatus = await response.json();
+                    updateFanStatus(fanStatus);
+                } else {
+                    console.error('Failed to get initial fan status:', response.status);
+                }
+            } catch (error) {
+                console.error('Error getting initial fan status:', error);
+            }
+        }
+
+        async function activateFan(fanId) {
+            try {
+                const response = await fetch(`/api/fan/${fanId}/on?duration_seconds=10`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Fan activated:', result.message);
+                } else {
+                    console.error('Failed to activate fan:', response.status);
+                }
+            } catch (error) {
+                console.error('Error activating fan:', error);
+            }
+        }
+
+        async function stopFan(fanId) {
+            try {
+                const response = await fetch(`/api/fan/${fanId}/off`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Fan stopped:', result.message);
+                } else {
+                    console.error('Failed to stop fan:', response.status);
+                }
+            } catch (error) {
+                console.error('Error stopping fan:', error);
+            }
+        }
+
+        async function getInitialMusicStatus() {
+            try {
+                const response = await fetch('/api/music/status');
+                if (response.ok) {
+                    const musicStatus = await response.json();
+                    updateMusicStatus(musicStatus);
+                } else {
+                    console.error('Failed to get initial music status:', response.status);
+                }
+            } catch (error) {
+                console.error('Error getting initial music status:', error);
+            }
+        }
+
+        function updateMusicStatus(musicStatus) {
+            const currentlyPlaying = musicStatus.currently_playing;
+
+            // Update all music buttons
+            for (let i = 1; i <= 4; i++) {
+                const button = document.getElementById(`music-button-${i}`);
+                const songId = i.toString();
+
+                if (currentlyPlaying === songId) {
+                    // This song is playing, show stop button
+                    button.textContent = 'Stop';
+                    button.className = 'bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200';
+                    button.onclick = () => stopMusic();
+                } else {
+                    // This song is not playing, show play button
+                    button.textContent = 'Play';
+                    button.className = 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200';
+                    button.onclick = () => startMusic(songId);
+                }
+            }
+        }
+
+        async function startMusic(songId) {
+            try {
+                const response = await fetch(`/api/music/start/${songId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Music started:', result.message);
+                } else {
+                    console.error('Failed to start music:', response.status);
+                }
+            } catch (error) {
+                console.error('Error starting music:', error);
+            }
+        }
+
+        async function stopMusic() {
+            try {
+                const response = await fetch('/api/music/stop', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Music stopped:', result.message);
+                } else {
+                    console.error('Failed to stop music:', response.status);
+                }
+            } catch (error) {
+                console.error('Error stopping music:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>

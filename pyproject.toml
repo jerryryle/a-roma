@@ -11,6 +11,7 @@ license = { text = "BSD-3-Clause" }
 dependencies = [
     "fake-rpi>=0.7.1",
     "fastapi>=0.115",
+    "pygame>=2.6.0",
     "pydantic>=2.11.7",
     "uvicorn[standard]>=0.34.3",
 ]

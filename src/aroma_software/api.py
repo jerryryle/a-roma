@@ -13,8 +13,10 @@ from fastapi.staticfiles import StaticFiles
 from aroma_software.event_system import EventSystem
 from aroma_software.fan_controller import FanController
 from aroma_software.logger_setup import setup_logger
+from aroma_software.music_controller import MusicController
 
 AROMA_PATH = "static/aroma.html"
+ESCALATE_PATH = "static/aroma_escalate.html"
 
 
 def create_app(log_file_path: str) -> FastAPI:
@@ -22,6 +24,7 @@ def create_app(log_file_path: str) -> FastAPI:
     logger = setup_logger(log_file_path)
     event_system = EventSystem(logger)
     fan_controller = FanController(event_system, logger)
+    music_controller = MusicController(event_system, logger)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
@@ -29,10 +32,12 @@ def create_app(log_file_path: str) -> FastAPI:
         # Startup
         await event_system.start_dispatcher()
         await fan_controller.start()
+        await music_controller.start()
 
         yield
 
         # Shutdown
+        await music_controller.stop()
         await fan_controller.stop()
         await event_system.stop_dispatcher()
 
@@ -96,6 +101,32 @@ def create_app(log_file_path: str) -> FastAPI:
         """Get the current status of all fans."""
         return await fan_controller.get_fan_status()
 
+    @api_router.post("/music/start/{song_id}")
+    async def music_start(song_id: str) -> Dict[str, Any]:
+        """Start playing a specific song."""
+        try:
+            await music_controller.music_start(song_id)
+            return {
+                "success": True,
+                "message": f"Started playing song: {song_id}",
+            }
+        except Exception as e:
+            raise ValueError(str(e))
+
+    @api_router.post("/music/stop")
+    async def music_stop() -> Dict[str, Any]:
+        """Stop the currently playing music."""
+        try:
+            await music_controller.music_stop()
+            return {"success": True, "message": "Music stopped"}
+        except Exception as e:
+            raise ValueError(str(e))
+
+    @api_router.get("/music/status")
+    async def get_music_status() -> Dict[str, Any]:
+        """Get the current music status."""
+        return await music_controller.get_music_status()
+
     @api_router.websocket("/ws")
     async def websocket_endpoint(websocket: WebSocket) -> None:
         """WebSocket endpoint for real-time service status updates."""
@@ -129,6 +160,11 @@ def create_app(log_file_path: str) -> FastAPI:
     @app.get("/", response_class=HTMLResponse)
     async def index() -> HTMLResponse:
         with open(AROMA_PATH) as f:
+            return HTMLResponse(content=f.read())
+
+    @app.get("/escalate", response_class=HTMLResponse)
+    async def escalate() -> HTMLResponse:
+        with open(ESCALATE_PATH) as f:
             return HTMLResponse(content=f.read())
 
     return app

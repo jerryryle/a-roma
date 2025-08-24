@@ -41,7 +41,7 @@
     <div class="container mx-auto px-4 py-12">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
-                Help Ryan relive his vacation with a whiff of:
+                Help Ryan relive his vacation with a whiff of
             </h2>
         </div>
 
@@ -49,7 +49,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <!-- Fine Italian Leather -->
             <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onclick="activateAroma(0)">
+                onclick="activateFan(0)">
                 <div class="h-64 bg-blue-gray-100 relative overflow-hidden">
                     <img src="/static/leather.jpg" alt="Fine Italian Leather"
                         class="w-full h-full object-cover grayscale transition-all duration-300" id="image-0">
@@ -68,7 +68,7 @@
 
             <!-- Artisan Bread -->
             <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onclick="activateAroma(1)">
+                onclick="activateFan(1)">
                 <div class="h-64 bg-olive-100 relative overflow-hidden">
                     <img src="/static/bread.jpg" alt="Artisan Bread"
                         class="w-full h-full object-cover grayscale transition-all duration-300" id="image-1">
@@ -87,7 +87,7 @@
 
             <!-- Espresso -->
             <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onclick="activateAroma(2)">
+                onclick="activateFan(2)">
                 <div class="h-64 bg-yellow-100 relative overflow-hidden">
                     <img src="/static/espresso.jpg" alt="Espresso"
                         class="w-full h-full object-cover grayscale transition-all duration-300" id="image-2">
@@ -106,7 +106,7 @@
 
             <!-- Garlic -->
             <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onclick="activateAroma(3)">
+                onclick="activateFan(3)">
                 <div class="h-64 bg-red-100 relative overflow-hidden">
                     <img src="/static/garlic.jpg" alt="Garlic"
                         class="w-full h-full object-cover grayscale transition-all duration-300" id="image-3">
@@ -216,7 +216,7 @@
             }
         }
 
-        async function activateAroma(fanId) {
+        async function activateFan(fanId) {
             try {
                 const response = await fetch(`/api/fan/${fanId}/on?duration_seconds=10`, {
                     method: 'POST',
