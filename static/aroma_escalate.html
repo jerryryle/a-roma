@@ -38,26 +38,26 @@
     </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-4 py-12">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
                 Help Ryan relive his vacation with a whiff of
             </h2>
         </div>
 
         <!-- Aroma Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
             <!-- Fine Italian Leather -->
             <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
                 onclick="activateFan(0)">
-                <div class="h-64 bg-blue-gray-100 relative overflow-hidden">
+                <div class="h-48 bg-blue-gray-100 relative overflow-hidden">
                     <img src="/static/leather.jpg" alt="Fine Italian Leather"
                         class="w-full h-full object-cover grayscale transition-all duration-300" id="image-0">
                     <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
                         id="progress-0"></div>
                 </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Fine Italian Leather</h3>
+                <div class="p-4 text-center">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Fine Italian Leather</h3>
                     <button id="stop-button-0"
                         class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
                         onclick="event.stopPropagation(); stopFan(0)">
@@ -69,14 +69,14 @@
             <!-- Artisan Bread -->
             <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
                 onclick="activateFan(1)">
-                <div class="h-64 bg-olive-100 relative overflow-hidden">
+                <div class="h-48 bg-olive-100 relative overflow-hidden">
                     <img src="/static/bread.jpg" alt="Artisan Bread"
                         class="w-full h-full object-cover grayscale transition-all duration-300" id="image-1">
                     <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
                         id="progress-1"></div>
                 </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Artisan Bread</h3>
+                <div class="p-4 text-center">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Artisan Bread</h3>
                     <button id="stop-button-1"
                         class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
                         onclick="event.stopPropagation(); stopFan(1)">
@@ -88,14 +88,14 @@
             <!-- Espresso -->
             <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
                 onclick="activateFan(2)">
-                <div class="h-64 bg-yellow-100 relative overflow-hidden">
+                <div class="h-48 bg-yellow-100 relative overflow-hidden">
                     <img src="/static/espresso.jpg" alt="Espresso"
                         class="w-full h-full object-cover grayscale transition-all duration-300" id="image-2">
                     <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
                         id="progress-2"></div>
                 </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Espresso</h3>
+                <div class="p-4 text-center">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Espresso</h3>
                     <button id="stop-button-2"
                         class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
                         onclick="event.stopPropagation(); stopFan(2)">
@@ -107,14 +107,14 @@
             <!-- Garlic -->
             <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
                 onclick="activateFan(3)">
-                <div class="h-64 bg-red-100 relative overflow-hidden">
+                <div class="h-48 bg-red-100 relative overflow-hidden">
                     <img src="/static/garlic.jpg" alt="Garlic"
                         class="w-full h-full object-cover grayscale transition-all duration-300" id="image-3">
                     <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
                         id="progress-3"></div>
                 </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Garlic</h3>
+                <div class="p-4 text-center">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Garlic</h3>
                     <button id="stop-button-3"
                         class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
                         onclick="event.stopPropagation(); stopFan(3)">
@@ -125,17 +125,17 @@
         </div>
 
         <!-- Music Controls -->
-        <div class="mt-16">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
+        <div class="mt-8">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
                     and some Italian music to go with it
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
                 <!-- Song 1 -->
-                <div class="bg-gray-100 rounded-lg p-6 text-center shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Tarantella Napoletana</h3>
+                <div class="bg-gray-100 rounded-lg p-4 text-center shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Tarantella Napoletana</h3>
                     <button id="music-button-1"
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                         onclick="startMusic(1)">
@@ -144,8 +144,8 @@
                 </div>
 
                 <!-- Song 2 -->
-                <div class="bg-gray-100 rounded-lg p-6 text-center shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Mambo Italiano</h3>
+                <div class="bg-gray-100 rounded-lg p-4 text-center shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Mambo Italiano</h3>
                     <button id="music-button-2"
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                         onclick="startMusic(2)">
@@ -154,8 +154,8 @@
                 </div>
 
                 <!-- Song 3 -->
-                <div class="bg-gray-100 rounded-lg p-6 text-center shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Luna Mezzo Mare</h3>
+                <div class="bg-gray-100 rounded-lg p-4 text-center shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Luna Mezzo Mare</h3>
                     <button id="music-button-3"
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                         onclick="startMusic(3)">
@@ -164,8 +164,8 @@
                 </div>
 
                 <!-- Song 4 -->
-                <div class="bg-gray-100 rounded-lg p-6 text-center shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">That's Amore</h3>
+                <div class="bg-gray-100 rounded-lg p-4 text-center shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">That's Amore</h3>
                     <button id="music-button-4"
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                         onclick="startMusic(4)">
