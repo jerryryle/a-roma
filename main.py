@@ -33,16 +33,31 @@ def parse_args() -> Namespace:
         default=None,
         help=f'Path to log file (default: {_DEFAULT_LOG_FILE_PATH})',
     )
+    parser.add_argument(
+        '--host',
+        type=str,
+        default="0.0.0.0:8000",
+        help='Host and port to run the server on (default: 0.0.0.0:8000)',
+    )
     args = parser.parse_args()
     args.log_file = args.log_file or _DEFAULT_LOG_FILE_PATH
     return args
 
 
-def main(log_file_path: str) -> None:
+def main(log_file_path: str, host: str) -> None:
     app = create_app(log_file_path)
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    try:
+        host, port = host.split(":")
+    except ValueError:
+        host = host
+        port = "8000"
+    if not port:
+        port = "8000"
+    if not host:
+        host = "0.0.0.0"
+    uvicorn.run(app, host=host, port=int(port))
 
 
 if __name__ == "__main__":
     args = parse_args()
-    main(args.log_file)
+    main(args.log_file, args.host)
