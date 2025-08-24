@@ -42,86 +42,44 @@
         </div>
 
         <!-- Aroma Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            <!-- Fine Italian Leather -->
-            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onclick="activateFan(0)">
-                <div class="h-64 bg-blue-gray-100 relative overflow-hidden">
-                    <img src="/static/leather.jpg" alt="Fine Italian Leather"
-                        class="w-full h-full object-cover grayscale transition-all duration-300" id="image-0">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
-                        id="progress-0"></div>
-                </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Fine Italian Leather</h3>
-                    <button id="stop-button-0"
-                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
-                        onclick="event.stopPropagation(); stopFan(0)">
-                        Stop (<span id="stop-time-0">0</span>)
-                    </button>
-                </div>
-            </div>
-
-            <!-- Artisan Bread -->
-            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onclick="activateFan(1)">
-                <div class="h-64 bg-olive-100 relative overflow-hidden">
-                    <img src="/static/bread.jpg" alt="Artisan Bread"
-                        class="w-full h-full object-cover grayscale transition-all duration-300" id="image-1">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
-                        id="progress-1"></div>
-                </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Artisan Bread</h3>
-                    <button id="stop-button-1"
-                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
-                        onclick="event.stopPropagation(); stopFan(1)">
-                        Stop (<span id="stop-time-1">0</span>)
-                    </button>
-                </div>
-            </div>
-
-            <!-- Espresso -->
-            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onclick="activateFan(2)">
-                <div class="h-64 bg-yellow-100 relative overflow-hidden">
-                    <img src="/static/espresso.jpg" alt="Espresso"
-                        class="w-full h-full object-cover grayscale transition-all duration-300" id="image-2">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
-                        id="progress-2"></div>
-                </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Espresso</h3>
-                    <button id="stop-button-2"
-                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
-                        onclick="event.stopPropagation(); stopFan(2)">
-                        Stop (<span id="stop-time-2">0</span>)
-                    </button>
-                </div>
-            </div>
-
-            <!-- Garlic -->
-            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onclick="activateFan(3)">
-                <div class="h-64 bg-red-100 relative overflow-hidden">
-                    <img src="/static/garlic.jpg" alt="Garlic"
-                        class="w-full h-full object-cover grayscale transition-all duration-300" id="image-3">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
-                        id="progress-3"></div>
-                </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Garlic</h3>
-                    <button id="stop-button-3"
-                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
-                        onclick="event.stopPropagation(); stopFan(3)">
-                        Stop (<span id="stop-time-3">0</span>)
-                    </button>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto" id="aroma-grid">
+            <!-- Aroma cards will be generated here -->
         </div>
     </div>
 
     <script>
+        // Configuration data
+        const aromaData = [
+            { id: 0, name: "Fine Italian Leather", image: "/static/leather.jpg", bgClass: "bg-blue-gray-100" },
+            { id: 1, name: "Artisan Bread", image: "/static/bread.jpg", bgClass: "bg-olive-100" },
+            { id: 2, name: "Espresso", image: "/static/espresso.jpg", bgClass: "bg-yellow-100" },
+            { id: 3, name: "Garlic", image: "/static/garlic.jpg", bgClass: "bg-red-100" }
+        ];
+
+        // Generate HTML for aroma cards
+        function generateAromaCards() {
+            const grid = document.getElementById('aroma-grid');
+            grid.innerHTML = aromaData.map(aroma => `
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                    onclick="activateFan(${aroma.id})">
+                    <div class="h-64 ${aroma.bgClass} relative overflow-hidden">
+                        <img src="${aroma.image}" alt="${aroma.name}"
+                            class="w-full h-full object-cover grayscale transition-all duration-300" id="image-${aroma.id}">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gray-400 opacity-0 transition-opacity duration-300"
+                            id="progress-${aroma.id}"></div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">${aroma.name}</h3>
+                        <button id="stop-button-${aroma.id}"
+                            class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                            onclick="event.stopPropagation(); stopFan(${aroma.id})">
+                            Stop (<span id="stop-time-${aroma.id}">0</span>)
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         // WebSocket connection for real-time updates
         let ws = null;
 
@@ -192,6 +150,9 @@
 
         // Initialize page when DOM loads
         document.addEventListener('DOMContentLoaded', async function () {
+            // Generate HTML dynamically
+            generateAromaCards();
+
             // Get initial fan status before connecting WebSocket
             await getInitialFanStatus();
             // Then connect WebSocket for real-time updates
