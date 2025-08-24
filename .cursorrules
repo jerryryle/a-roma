@@ -1,0 +1,15 @@
+# Cursor Rules for aroma_software
+
+## Overall Guidelines
+- This package will run on a Raspberry Pi Zero 2 W using the latest Raspberry Pi OS.
+
+## API Server Guidelines
+- Use Python 3.13
+- Use FastAPI for REST endpoints and websockets.
+- Ensure that all Python code passes MyPy and Flake8.
+
+## Static HTML Guidelines
+- Create all static HTML/JS/CSS resources in the /static folder.
+- Create modern HTML/Javascript without any build steps.
+- Use Tailwind CSS for styling
+- Use Websockets to get realtime updates from the API Server

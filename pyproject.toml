@@ -1,0 +1,113 @@
+[project]
+name = "aroma-software"
+version = "0.1.0"
+description = "A-Roma scent dispenser software"
+authors = [
+    { name = "Jerry Ryle", email = "jerry@ryle.io" }
+]
+requires-python = ">=3.13"
+readme = "README.md"
+license = { text = "BSD-3-Clause" }
+dependencies = [
+    "fake-rpi>=0.7.1",
+    "fastapi>=0.115",
+    "pydantic>=2.11.7",
+    "uvicorn[standard]>=0.34.3",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "flake8>=7.2.0",
+    "mypy>=1.16.0",
+    "pytest>=8.3.4",
+]
+
+[project.scripts]
+aroma-software = "main:main"
+
+[build-system]
+requires = ["uv_build>=0.8.11,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.isort]
+profile = "black"
+line_length = 88
+sections = [
+  "FUTURE",
+  "STDLIB",
+  "FASTAPI_SQL_GL",
+  "THIRDPARTY",
+  "FIRSTPARTY",
+  "LOCALFOLDER",
+]
+known_fastapi_sql_gl = ["fastapi", "sqlalchemy", "strawberry"]
+known_firstparty = ["baton_tms", "deploy"]
+import_heading_stdlib = "Standard Library Imports"
+import_heading_fastapi_sql_gl = "Third Party Imports"
+import_heading_firstparty = "Local Application Imports"
+indented_import_headings = false
+
+# https://pycqa.github.io/isort/docs/configuration/profiles.html
+no_lines_before = ["future"]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+
+[tool.black]
+line-length = 88
+skip-string-normalization = true
+target-version = ['py312']
+include = '\.pyi?$'
+exclude = '''
+  /(
+      \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \.toml
+    | \data
+    | _build
+    | buck-out
+    | build
+    | dist
+    | tests/data
+    | \__snapshots__
+    # The following are specific to Black, you probably don't want those.
+    | blib2to3
+  )/
+'''
+
+[tool.vulture]
+exclude = []
+ignore_decorators = ["@app.route", "@require_*"]
+make_whitelist = true
+min_confidence = 80
+paths = []
+sort_by_size = true
+verbose = false
+
+[tool.mypy]
+python_version = "3.13"
+plugins = [
+  "pydantic.mypy"
+]
+exclude = []
+follow_imports = "skip"
+ignore_missing_imports = true
+scripts_are_modules = true
+implicit_reexport = true
+check_untyped_defs = true
+warn_unused_ignores = true
+warn_return_any = true
+
+disallow_untyped_decorators = false
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_subclassing_any = false
+
+# this is maximum hardcore
+strict = true

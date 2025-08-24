@@ -1,0 +1,61 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python3.13",
+    "files.exclude": {
+        "**/._*": true,
+        "*.pyc": true,
+        "**/__pycache__": true,
+        ".pylintrc": true,
+        "requirements.txt": true,
+        ".mypy_cache": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        ".venv/*": false,
+        "**/local_dev/postgres-data/**": true,
+        "**/local_dev/s3-data/**": true,
+    },
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.testing.unittestEnabled": false,
+    "terminal.integrated.scrollback": 10000,
+    "task.allowAutomaticTasks": "on",
+    "editor.formatOnSaveMode": "file",
+    "python.testing.pytestEnabled": true,
+    "editor.codeActionsOnSave": {},
+    "python.languageServer": "None",
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "black-formatter.args": [
+        "--config=${workspaceFolder}/pyproject.toml"
+    ],
+    "mypy-type-checker.importStrategy": "fromEnvironment",
+    "mypy-type-checker.reportingScope": "workspace",
+    "mypy-type-checker.preferDaemon": true,
+    "mypy-type-checker.args": [
+        "--config-file=${workspaceFolder}/pyproject.toml",
+    ],
+    "mypy-type-checker.cwd": "${workspaceFolder}",
+    "flake8.path": [
+        "${workspaceFolder}/.venv/bin/flake8"
+    ],
+    "flake8.args": [
+        "--config=${workspaceFolder}/.flake8"
+    ],
+    "flake8.cwd": "${workspaceFolder}",
+    "black-formatter.importStrategy": "fromEnvironment",
+    "black-formatter.path": [
+        "${workspaceFolder}/.venv/bin/black"
+    ],
+    "editor.formatOnSave": true,
+    "cursorpyright.analysis.inlayHints.functionReturnTypes": true,
+    "cursorpyright.analysis.inlayHints.variableTypes": true,
+    "cursorpyright.analysis.typeCheckingMode": "off",
+}
