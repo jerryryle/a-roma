@@ -12,6 +12,26 @@
         body {
             font-family: 'Helvetica', sans-serif;
         }
+
+        /* Prevent layout shift when stop button appears */
+        .stop-button-container {
+            min-height: 40px;
+            /* Reserve space for the button */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stop-button {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+        }
+
+        .stop-button.visible {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 
@@ -70,11 +90,13 @@
                     </div>
                     <div class="p-6 text-center">
                         <h3 class="text-xl font-bold text-gray-900 mb-2">${aroma.name}</h3>
-                        <button id="stop-button-${aroma.id}"
-                            class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
-                            onclick="event.stopPropagation(); stopFan(${aroma.id})">
-                            Stop (<span id="stop-time-${aroma.id}">0</span>)
-                        </button>
+                        <div class="stop-button-container">
+                            <button id="stop-button-${aroma.id}"
+                                class="stop-button bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                                onclick="event.stopPropagation(); stopFan(${aroma.id})">
+                                Stop (<span id="stop-time-${aroma.id}">0</span>)
+                            </button>
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -135,7 +157,7 @@
                     progress.style.background = `linear-gradient(to right, rgba(156, 163, 175, 0.8) ${100 - progressPercent}%, transparent ${100 - progressPercent}%)`;
 
                     // Show stop button and update time
-                    stopButton.classList.remove('hidden');
+                    stopButton.classList.add('visible');
                     stopTime.textContent = fan.remaining_seconds;
                 } else {
                     // Reset to grayscale when inactive
@@ -143,7 +165,7 @@
                     progress.style.opacity = '0';
 
                     // Hide stop button when inactive
-                    stopButton.classList.add('hidden');
+                    stopButton.classList.remove('visible');
                 }
             }
         }
