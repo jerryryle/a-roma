@@ -127,6 +127,27 @@ def create_app(log_file_path: str) -> FastAPI:
         """Get the current music status."""
         return await music_controller.get_music_status()
 
+    @api_router.post("/music/volume")
+    async def set_music_volume(request: Request) -> Dict[str, Any]:
+        """Set the music volume.
+
+        Expected JSON body: {"volume": 0.7}
+        """
+        try:
+            body = await request.json()
+            volume = body.get("volume")
+
+            if volume is None:
+                raise ValueError("Volume parameter is required")
+
+            await music_controller.set_volume(volume)
+            return {
+                "success": True,
+                "message": f"Volume set to {volume}",
+            }
+        except ValueError as e:
+            raise ValueError(str(e))
+
     @api_router.websocket("/ws")
     async def websocket_endpoint(websocket: WebSocket) -> None:
         """WebSocket endpoint for real-time service status updates."""

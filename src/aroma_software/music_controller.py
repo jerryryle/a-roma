@@ -9,6 +9,8 @@ import pygame
 # Local Application Imports
 from aroma_software.event_system import EventSystem
 
+_DEFAULT_VOLUME = 0.7
+
 
 class MusicController:
     """Manages music playback using PyGame with status broadcasting."""
@@ -25,6 +27,7 @@ class MusicController:
 
         # Music state tracking
         self.currently_playing: Optional[str] = None
+        self.volume: float = _DEFAULT_VOLUME  # Default volume (0.0 to 1.0)
         self.music_directory = "static/music"  # Directory containing MP3 files
 
         # Song ID to filename mapping
@@ -62,6 +65,7 @@ class MusicController:
             # Reset music state
             async with self._music_state_lock:
                 self.currently_playing = None
+                self.volume = _DEFAULT_VOLUME  # Reset to default volume
 
             # Start the background task
             self._music_management_task = asyncio.create_task(self._manage_music())
@@ -105,6 +109,18 @@ class MusicController:
         # Queue the music control event
         await self._music_events.put({"type": "stop"})
 
+    async def set_volume(self, volume: float) -> None:
+        """Set the music volume.
+
+        Args:
+            volume: Volume level between 0.0 and 1.0
+        """
+        if not 0.0 <= volume <= 1.0:
+            raise ValueError("Volume must be between 0.0 and 1.0")
+
+        # Queue the volume control event
+        await self._music_events.put({"type": "set_volume", "volume": volume})
+
     async def get_music_status(self) -> Dict[str, Any]:
         """Get current music status.
 
@@ -114,6 +130,7 @@ class MusicController:
         async with self._music_state_lock:
             return {
                 "currently_playing": self.currently_playing,
+                "volume": self.volume,
             }
 
     async def _manage_music(self) -> None:
@@ -161,6 +178,13 @@ class MusicController:
 
             elif event["type"] == "stop":
                 await self._stop_song()
+            elif event["type"] == "set_volume":
+                volume = event["volume"]
+                self.volume = volume
+                # Apply volume to currently playing music
+                if pygame.mixer.get_init():
+                    pygame.mixer.music.set_volume(volume)
+                self.logger.info(f"Volume set to: {volume}")
 
     async def _play_song(self, song_id: str) -> None:
         """Play a specific song."""
@@ -180,6 +204,7 @@ class MusicController:
 
             # Load and play the new song
             pygame.mixer.music.load(song_path)
+            pygame.mixer.music.set_volume(self.volume)  # Apply current volume
             pygame.mixer.music.play()
 
             # Update the currently playing state
