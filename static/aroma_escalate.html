@@ -12,6 +12,54 @@
         body {
             font-family: 'Helvetica', sans-serif;
         }
+
+        /* Waveform animation for music buttons */
+        .waveform {
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        .waveform-bar {
+            display: inline-block;
+            width: 2px;
+            height: 12px;
+            background-color: currentColor;
+            margin: 0 1px;
+            animation: waveform-animation 1.2s ease-in-out infinite;
+        }
+
+        .waveform-bar:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .waveform-bar:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .waveform-bar:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .waveform-bar:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .waveform-bar:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes waveform-animation {
+
+            0%,
+            40%,
+            100% {
+                transform: scaleY(0.4);
+            }
+
+            20% {
+                transform: scaleY(1);
+            }
+        }
     </style>
 </head>
 
@@ -136,6 +184,13 @@
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                         onclick="startMusic(1)">
                         Play
+                        <div class="waveform hidden">
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                        </div>
                     </button>
                 </div>
 
@@ -146,6 +201,13 @@
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                         onclick="startMusic(2)">
                         Play
+                        <div class="waveform hidden">
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                        </div>
                     </button>
                 </div>
 
@@ -156,6 +218,13 @@
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                         onclick="startMusic(3)">
                         Play
+                        <div class="waveform hidden">
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                        </div>
                     </button>
                 </div>
 
@@ -166,6 +235,13 @@
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                         onclick="startMusic(4)">
                         Play
+                        <div class="waveform hidden">
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -344,15 +420,16 @@
             for (let i = 1; i <= 4; i++) {
                 const button = document.getElementById(`music-button-${i}`);
                 const songId = i.toString();
+                const waveform = button.querySelector('.waveform');
 
                 if (currentlyPlaying === songId) {
-                    // This song is playing, show stop button
-                    button.textContent = 'Stop';
+                    // This song is playing, show stop button with waveform
+                    button.innerHTML = 'Stop<div class="waveform"><div class="waveform-bar"></div><div class="waveform-bar"></div><div class="waveform-bar"></div><div class="waveform-bar"></div><div class="waveform-bar"></div></div>';
                     button.className = 'bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200';
                     button.onclick = () => stopMusic();
                 } else {
-                    // This song is not playing, show play button
-                    button.textContent = 'Play';
+                    // This song is not playing, show play button without waveform
+                    button.innerHTML = 'Play<div class="waveform hidden"><div class="waveform-bar"></div><div class="waveform-bar"></div><div class="waveform-bar"></div><div class="waveform-bar"></div><div class="waveform-bar"></div></div>';
                     button.className = 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200';
                     button.onclick = () => startMusic(songId);
                 }
