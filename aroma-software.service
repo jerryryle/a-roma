@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=pi
+User=root
 WorkingDirectory=/opt/aroma-software
 Environment=PATH=/opt/aroma-software/venv/bin
 ExecStart=/opt/aroma-software/venv/bin/python main.py --host 0.0.0.0:80

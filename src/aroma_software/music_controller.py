@@ -9,7 +9,7 @@ import pygame
 # Local Application Imports
 from aroma_software.event_system import EventSystem
 
-_DEFAULT_VOLUME = 0.7
+_DEFAULT_VOLUME = 0.04
 
 
 class MusicController:

@@ -18,8 +18,17 @@ This guide covers deploying the A-Roma software to a Raspberry Pi Zero 2 W.
 
 ### One-Command Deployment
 ```bash
-# Deploy to default Pi (raspberrypi.local)
+# Deploy to default Pi (aroma.local)
 make deploy-pi
+
+# Or specify custom Pi details
+PI_USER=aroma PI_HOST=aroma.local make deploy-pi
+```
+
+### Sync changed files after deployment
+```bash
+# Sync changed files to default Pi (aroma.local)
+make sync-deploy
 
 # Or specify custom Pi details
 PI_USER=aroma PI_HOST=aroma.local make deploy-pi
@@ -31,9 +40,9 @@ PI_USER=aroma PI_HOST=aroma.local make deploy-pi
 You can customize the deployment by setting these environment variables:
 
 ```bash
-export PI_USER="aroma"                    # SSH username (default: pi)
-export PI_HOST="aroma.local"     # Pi hostname/IP (default: raspberrypi.local)
-export PI_PATH="/opt/aroma-software"   # Installation path (default: /opt/aroma-software)
+export PI_USER="aroma"                  # SSH username default
+export PI_HOST="aroma.local"            # Pi hostname/IP default
+export PI_PATH="/opt/aroma-software"    # Installation path default
 ```
 
 ## Service Management
@@ -68,7 +77,7 @@ sudo systemctl restart aroma-software.service
 ## Accessing the Application
 
 Once deployed, you can access the application at:
-- **Main Interface**: http://raspberrypi.local
+- **Main Interface**: http://aroma.local
 
 ## Troubleshooting
 

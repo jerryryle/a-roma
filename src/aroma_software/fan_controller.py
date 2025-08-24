@@ -160,6 +160,13 @@ class FanController:
                         GPIO.output(pin, GPIO.HIGH)
                         state["gpio_on"] = True
                         self.logger.info(f"Turned on fan {fan_id} (GPIO {pin})")
+                    if state["gpio_on"] and state["remaining_seconds"] <= 0:
+                        state["remaining_seconds"] = 0
+                        # Turn off the fan GPIO
+                        pin = self.FAN_PINS[fan_id]
+                        GPIO.output(pin, GPIO.LOW)
+                        state["gpio_on"] = False
+                        self.logger.info(f"Turned off fan {fan_id} (GPIO {pin})")
 
                 # Broadcast current status (outside the lock to avoid blocking)
                 status = await self.get_fan_status()
@@ -178,15 +185,6 @@ class FanController:
                         state = self.fan_states[fan_id]
                         if state["remaining_seconds"] > 0:
                             state["remaining_seconds"] -= 1
-                            if state["gpio_on"] and state["remaining_seconds"] <= 0:
-                                state["remaining_seconds"] = 0
-                                # Turn off the fan GPIO
-                                pin = self.FAN_PINS[fan_id]
-                                GPIO.output(pin, GPIO.LOW)
-                                state["gpio_on"] = False
-                                self.logger.info(
-                                    f"Turned off fan {fan_id} (GPIO {pin})"
-                                )
 
             except asyncio.CancelledError:
                 break

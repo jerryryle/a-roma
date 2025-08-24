@@ -6,14 +6,15 @@ PI_USER ?= aroma
 PI_HOST ?= aroma.local
 PI_PATH ?= /opt/aroma-software
 
-.PHONY: help install install-dev test lint format clean run run-dev deploy-pi
+.PHONY: help install install-dev test lint format clean run run-dev deploy-pi update-deploy
 
 # Default target
 help:
 	@echo "A-Roma Software - Available targets:"
 	@echo ""
 	@echo "Raspberry Pi Deployment:"
-	@echo "  deploy-pi      - Deploy to Raspberry Pi (one command)"
+	@echo "  deploy-pi      - Deploy to Raspberry Pi"
+	@echo "  sync-deploy    - Sync changed files to Raspberry Pi"
 	@echo ""
 	@echo "System Service:"
 	@echo "  install-service - Install systemd service"
@@ -67,7 +68,7 @@ deploy-pi:
 		--exclude='*.log' \
 		./ $(PI_USER)@$(PI_HOST):$(PI_PATH)/
 	@echo "Setting up and deploying..."
-	@ssh $(PI_USER)@$(PI_HOST) "cd $(PI_PATH) && sudo apt-get update && sudo apt-get install -y python3-pip python3-venv git python3-pygame python3-rpi.gpio && python3 -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -e . && make install-service && make enable-service && make service-status"
+	@ssh $(PI_USER)@$(PI_HOST) "cd $(PI_PATH) && sudo apt-get update && sudo apt-get install -y python3-pip python3-venv git python3-pygame python3-rpi.gpio && python3 -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -e . && pip install RPi.GPIO && make install-service && make enable-service && make service-status"
 	@echo "Deployment complete!"
 	@echo ""
 	@echo "Your A-Roma software is now running on:"
@@ -77,3 +78,18 @@ deploy-pi:
 	@echo "  ssh $(PI_USER)@$(PI_HOST) 'cd $(PI_PATH) && make service-status'  # Check status"
 	@echo "  ssh $(PI_USER)@$(PI_HOST) 'cd $(PI_PATH) && make logs'            # View logs"
 	@echo "  ssh $(PI_USER)@$(PI_HOST) 'cd $(PI_PATH) && make disable-service' # Stop service"
+
+# Quick file sync (no setup/installation)
+sync-deploy:
+	@echo "Syncing files to Raspberry Pi..."
+	@echo "Target: $(PI_USER)@$(PI_HOST):$(PI_PATH)"
+	@rsync -avz --delete \
+		--exclude='.venv' \
+		--exclude='venv' \
+		--exclude='__pycache__' \
+		--exclude='*.pyc' \
+		--exclude='.git' \
+		--exclude='.vscode' \
+		--exclude='*.log' \
+		./ $(PI_USER)@$(PI_HOST):$(PI_PATH)/
+	@echo "File sync complete!"
