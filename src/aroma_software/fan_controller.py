@@ -35,41 +35,51 @@ class FanController:
         # Lock for thread-safe access to fan_states
         self._fan_states_lock = asyncio.Lock()
 
-        # Queue for fan control events
-        self._fan_events: asyncio.Queue[Dict[str, Any]] = asyncio.Queue()
+        # Queues for each fan's events
+        self._fan_queues = {
+            fan_id: asyncio.Queue[Dict[str, Any]]() for fan_id in range(4)
+        }
 
-        # Background task for progress updates
-        self._fan_management_task: Optional[asyncio.Task[None]] = None
+        # Tasks for each fan
+        self._fan_tasks: Dict[int, Optional[asyncio.Task[None]]] = {
+            fan_id: None for fan_id in range(4)
+        }
 
     async def start(self) -> None:
-        """Start the background task that manages fans and broadcasts progress."""
-        if self._fan_management_task is None:
-            # Reset fan states
-            async with self._fan_states_lock:
-                for fan_id in range(4):
-                    self.fan_states[fan_id] = {
-                        "remaining_seconds": 0,
-                        "total_seconds": 0,
-                        "gpio_on": False,
-                    }
+        """Start the background tasks that manage fans and broadcast progress."""
+        # Reset fan states
+        async with self._fan_states_lock:
+            for fan_id in range(4):
+                self.fan_states[fan_id] = {
+                    "remaining_seconds": 0,
+                    "total_seconds": 0,
+                    "gpio_on": False,
+                }
 
-            # Setup GPIO pins
-            self._setup_gpio()
+        # Setup GPIO pins
+        self._setup_gpio()
 
-            # Start the background task
-            self._fan_management_task = asyncio.create_task(self._manage_fans())
-            self.logger.info("Started fan management")
+        # Start task for each fan
+        for fan_id in range(4):
+            if self._fan_tasks[fan_id] is None:
+                self._fan_tasks[fan_id] = asyncio.create_task(self._manage_fan(fan_id))
+
+        self.logger.info("Started fan management")
 
     async def stop(self) -> None:
-        """Stop the background task and clean up GPIO resources."""
-        if self._fan_management_task is not None:
-            self._fan_management_task.cancel()
-            try:
-                await self._fan_management_task
-            except asyncio.CancelledError:
-                pass
-            self._fan_management_task = None
-            self.logger.info("Stopped fan management")
+        """Stop the background tasks and clean up GPIO resources."""
+        # Cancel all fan tasks
+        for fan_id in range(4):
+            task = self._fan_tasks[fan_id]
+            if task is not None:
+                task.cancel()
+                try:
+                    await task
+                except asyncio.CancelledError:
+                    pass
+                self._fan_tasks[fan_id] = None
+
+        self.logger.info("Stopped fan management")
 
         # Clean up GPIO resources
         try:
@@ -98,7 +108,7 @@ class FanController:
             raise ValueError(f"Duration must be positive, got: {duration_seconds}")
 
         # Queue the fan control event
-        await self._fan_events.put(
+        await self._fan_queues[fan_id].put(
             {"type": "turn_on", "fan_id": fan_id, "duration_seconds": duration_seconds}
         )
 
@@ -112,7 +122,7 @@ class FanController:
             raise ValueError(f"Invalid fan_id: {fan_id}. Must be 0-3")
 
         # Queue the fan control event
-        await self._fan_events.put({"type": "turn_off", "fan_id": fan_id})
+        await self._fan_queues[fan_id].put({"type": "turn_off", "fan_id": fan_id})
 
     async def get_fan_status(self) -> Dict[str, Any]:
         """Get current status of all fans.
@@ -131,53 +141,57 @@ class FanController:
 
             return status
 
-    async def _manage_fans(self) -> None:
-        """Background task that manages fan GPIO control, timing, and broadcasts status updates."""
+    async def _manage_fan(self, fan_id: int) -> None:
+        """Background task that manages a single fan's GPIO control, timing, and broadcasts status updates."""
         while True:
             try:
-                # Wait for either 1 second or a new event
-                try:
-                    event = await asyncio.wait_for(self._fan_events.get(), timeout=1.0)
-                    # Process the received event
-                    await self._process_fan_event(event)
-                except asyncio.TimeoutError:
-                    # Normal 1-second timeout, no event received
-                    pass
-
-                # Process any remaining events in the queue
-                while not self._fan_events.empty():
-                    event = await self._fan_events.get()
+                # Process any pending events first
+                while not self._fan_queues[fan_id].empty():
+                    event = await self._fan_queues[fan_id].get()
                     await self._process_fan_event(event)
 
                 async with self._fan_states_lock:
-                    # Manage GPIO state for fans that need to be turned on
-                    for fan_id, state in self.fan_states.items():
-                        if not state["gpio_on"] and state["remaining_seconds"] > 0:
-                            # Turn on the fan GPIO
-                            pin = self.FAN_PINS[fan_id]
-                            GPIO.output(pin, GPIO.HIGH)
-                            state["gpio_on"] = True
-                            self.logger.info(f"Turned on fan {fan_id} (GPIO {pin})")
+                    state = self.fan_states[fan_id]
 
-                    # Update remaining time for active fans and turn off finished ones
-                    for fan_id, state in self.fan_states.items():
-                        state["remaining_seconds"] -= 1
-                        if state["gpio_on"] and state["remaining_seconds"] <= 0:
-                            state["remaining_seconds"] = 0
-                            # Turn off the fan GPIO
-                            pin = self.FAN_PINS[fan_id]
-                            GPIO.output(pin, GPIO.LOW)
-                            state["gpio_on"] = False
-                            self.logger.info(f"Turned off fan {fan_id} (GPIO {pin})")
+                    # Manage GPIO state for this fan
+                    if not state["gpio_on"] and state["remaining_seconds"] > 0:
+                        # Turn on the fan GPIO
+                        pin = self.FAN_PINS[fan_id]
+                        GPIO.output(pin, GPIO.HIGH)
+                        state["gpio_on"] = True
+                        self.logger.info(f"Turned on fan {fan_id} (GPIO {pin})")
 
                 # Broadcast current status (outside the lock to avoid blocking)
                 status = await self.get_fan_status()
                 self.event_system.queue_event({"type": "fan_status", "data": status})
 
+                # Wait for either 1 second or a new event
+                try:
+                    event = await asyncio.wait_for(
+                        self._fan_queues[fan_id].get(), timeout=1.0
+                    )
+                    # Process the received event immediately
+                    await self._process_fan_event(event)
+                except asyncio.TimeoutError:
+                    # A full second has passed, decrement the countdown
+                    async with self._fan_states_lock:
+                        state = self.fan_states[fan_id]
+                        if state["remaining_seconds"] > 0:
+                            state["remaining_seconds"] -= 1
+                            if state["gpio_on"] and state["remaining_seconds"] <= 0:
+                                state["remaining_seconds"] = 0
+                                # Turn off the fan GPIO
+                                pin = self.FAN_PINS[fan_id]
+                                GPIO.output(pin, GPIO.LOW)
+                                state["gpio_on"] = False
+                                self.logger.info(
+                                    f"Turned off fan {fan_id} (GPIO {pin})"
+                                )
+
             except asyncio.CancelledError:
                 break
             except Exception as e:
-                self.logger.error(f"Error in fan management: {e}")
+                self.logger.error(f"Error in fan {fan_id} management: {e}")
                 await asyncio.sleep(1)  # Continue despite errors
 
     async def _process_fan_event(self, event: Dict[str, Any]) -> None:
