@@ -1,6 +1,8 @@
 # A-Roma Software
 
-A Raspberry Pi-based scent dispenser control system with 4 independently controlled fans.
+Software for a Raspberry Pi-based scent dispenser with 4 independently controlled fans.
+
+Read about why this exists here: [ABOUT.md](/ABOUT.md)
 
 ## Features
 
