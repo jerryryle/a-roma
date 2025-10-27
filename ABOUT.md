@@ -1,5 +1,7 @@
 # About A-Roma
 
+You can find more technical detail in [README.md](/README.md).
+
 I decided to prank my boss when he came back from a two-week vacation to Italy. While he was gone, my coworkers decorated his desk with an Italian theme. I decided that his desk also needed a way to dispense Italian-themed smells and music so that he could enjoy the sights, sounds, and smells of his trip when he returned.
 
 ![My boss's desk](media/img-desk.jpeg "Photo of my boss's desk, decorated with an Italian theme")
