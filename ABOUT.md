@@ -1,4 +1,4 @@
-# About A-Roma
+# About A-Roma (August 2025)
 
 You can find more technical detail in [README.md](/README.md).
 
