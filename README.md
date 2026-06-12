@@ -2,7 +2,7 @@
 
 Software for a Raspberry Pi-based scent dispenser with 4 independently controlled fans.
 
-You can find an explanation for this device's existence in [ABOUT.md](/ABOUT.md).
+You can find an explanation for this device's existence in [the docs](/docs).
 
 ## Features
 
