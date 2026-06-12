@@ -2,7 +2,7 @@
 title: "(August 2025) A-Roma: A 4-channel scent dispenser for harassing my boss"
 ---
 # Background
-You can find more technical detail in [README.md](/README.md).
+You can find more technical detail in the [repo itself](https://github.com/jerryryle/a-roma).
 
 I thought it would be fun to prank my boss when he came back from a two-week vacation to Italy. While he was gone, my coworkers decorated his desk with an Italian theme. I decided that his desk also needed a way to dispense Italian-themed smells and music so that he could enjoy the sights, sounds, and smells of his trip when he returned.
 
