@@ -2,7 +2,7 @@
 
 Software for a Raspberry Pi-based scent dispenser with 4 independently controlled fans.
 
-You can find an explanation for this device's existence in [the docs](/docs).
+You can find an explanation for this device's existence in [the docs](https://jerryryle.github.io/a-roma/).
 
 ## Features
 
