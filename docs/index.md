@@ -1,5 +1,7 @@
-# About A-Roma (August 2025)
-
+---
+title: "(August 2025) A-Roma: A 4-channel scent dispenser for harassing my boss"
+---
+# Background
 You can find more technical detail in [README.md](/README.md).
 
 I thought it would be fun to prank my boss when he came back from a two-week vacation to Italy. While he was gone, my coworkers decorated his desk with an Italian theme. I decided that his desk also needed a way to dispense Italian-themed smells and music so that he could enjoy the sights, sounds, and smells of his trip when he returned.
@@ -19,7 +21,7 @@ After a day of gassing the office, I finally decided to bring it to an end. I di
 To wrap it up, I invited him into the Slack channel where he could see all of our plotting throughout the day. In that channel, I had posted a “making of” thread that went into detail about how I designed and built the device. Enjoy that below.
 
 
-## The Making Of
+# The Making Of
 The project began with reconnaissance to see how much space I had to work with. I needed dimensions for the area and to evaluate the angle of approach to ensure the box wasn't too deep or obvious. At this point, I didn't know the table would sport a tablecloth to help hide it.
 
 ![Checking out the angle of approach](media/img-measuring-ryans-desk-approach.jpeg "Photo of my boss's desk as one would walk up to it")
